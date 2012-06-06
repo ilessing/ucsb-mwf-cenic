@@ -1,0 +1,60 @@
+====================================================
+ UCSB MWF SECTION IMAGE
+====================================================
+
+ <img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header.png" />
+
+ 
+====================================================
+ MWF FOOTER
+====================================================
+
+ <div id="footer">
+	 <p>
+		 &copy;2012 The Regents of the University of California, All Rights Reserved
+		 <br />
+		 <a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php">Terms of Use</a>
+		 | <a href="http://mwf.library.ucsb.edu/mwf/accessibility.php">Accessiblity</a>
+		 <br />
+		 <a href="../index.html?override_redirect=1">View Full Site</a>
+	 </p>
+	 <br />
+	 <p class="mwf-credit">
+		 Powered by the <a href="http://mwf.ucla.edu">Mobile Web Framework</a>
+	 </p>
+ </div>
+
+ 
+====================================================
+ UCSB MWF FRONT PAGE IMAGE
+====================================================
+
+ <img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header-front.png" />
+ 
+
+====================================================
+ MOBILE REDIRECT SCRIPT
+====================================================
+ 
+ <script type="text/javascript" src="http://mwf.library.ucsb.edu/assets/redirect/js.php?m={YOUR_MOBILE_URL}"></script>
+ 
+ 
+====================================================
+ STATIC GOOGLE MAP URL
+====================================================
+ 
+ http://maps.googleapis.com/maps/api/staticmap?sensor=false&amp;zoom=15&amp;size=600x320&amp;markers=34.41369,-119.843019 
+ 
+ 
+====================================================
+ PHOTO PAGE IMAGE URL
+====================================================
+
+ <img src="http://web.chem.ucsb.edu/~bazangroup/UCSB-from-air.jpg" />	
+ 
+ 
+====================================================
+ PHOTO PAGE IMAGE URL (COMPRESSOR)
+====================================================
+ 
+ http://mwf.library.ucsb.edu/assets/min/img.php?img=http%3A%2F%2Fweb.chem.ucsb.edu%2F~bazangroup%2FUCSB-from-air.jpg&amp;browser_width_percent=80&amp;max_width=400 

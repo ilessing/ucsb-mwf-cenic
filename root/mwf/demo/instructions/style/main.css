@@ -1,0 +1,90 @@
+body
+{
+	color: #222;
+	font-family: Arial, sans-serif;
+	line-height: 1.5em;
+}
+
+#main
+{
+	margin: 50px auto;
+	max-width: 600px;
+}
+
+h1, h2
+{
+	color: #1E54A6;
+	font-family: 'Magra', sans-serif;
+	font-weight: normal;
+	margin: 2em 0 1em 0;
+}
+
+a
+{
+	color: #397BCC;
+}
+
+.view-source-link
+{
+	float: right;
+	font-family: 'Magra', sans-serif;
+	font-size: 1.2em;
+	margin: 1.3em 0 0 0;
+	padding: 5px;
+	text-align: center;
+}
+
+.view-source
+{
+	display: none;
+}
+
+#basic-modal-content
+{
+	display:none;
+}
+
+#simplemodal-overlay
+{
+	background-color:#000;
+}
+
+.simplemodal-wrap
+{
+	overflow: hidden !important;
+}
+
+#simplemodal-container
+{
+	background: #FFF;
+	max-height: 480px;
+	max-width: 600px;
+	padding: 20px;
+	width: 100%;
+}
+
+#simplemodal-container h2
+{
+	margin-top: 0;
+}
+
+.simplemodal-close
+{
+	cursor: pointer;
+	float: right;
+	font-size: 1.5em;
+	font-family: Verdana, sans-serif;
+	position: absolute;
+	right: 20px;
+	text-align: right;
+}
+
+.simplemodal-close:after
+{
+	content: "X";
+}
+
+#simplemodal-container .prettyprint
+{
+	height: 400px;
+}

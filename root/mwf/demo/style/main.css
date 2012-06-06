@@ -1,0 +1,406 @@
+/* =RESET
+------------------------------------------------------- */
+
+html, body, h1
+{
+	margin: 0;
+	padding: 0;
+}
+
+/* =IMAGE REPLACEMENT
+------------------------------------------------------- */
+
+h1 a
+{
+	background-repeat: no-repeat;
+	display: block;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
+/* =CLEARFIX
+------------------------------------------------------- */
+
+.photo-list:before, .photo-list:after
+{
+    content: "";
+    display: table;
+}
+ 
+.photo-list:after
+{
+    clear: both;
+}
+ 
+.photo-list
+{
+    zoom: 1;
+}
+
+/* =GLOBAL
+------------------------------------------------------- */
+
+body
+{
+	background: #FFF url(../images/body_back.png) repeat-x;
+	color: #222;
+	font-family: Arial, sans-serif;
+}
+
+#main
+{
+	margin: 0 auto;
+	width: 960px;
+}
+
+h2
+{
+	color: #2867B8;
+	font-size: 3em;
+	font-weight: normal;
+	margin: 0.75em 0 0.4em;
+}
+
+h3
+{
+	color: #6C9EDD;
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+.photo-box-right, .photo-box-left, .photo-list li, .map-wrapper img
+{
+	border: 1px solid #CCC;
+	-moz-box-shadow: 0 1px 8px #CCC;
+	-webkit-box-shadow: 0 1px 8px #CCC;
+	box-shadow: 0 1px 8px #CCC;
+}
+
+.photo-box-right, .photo-box-left
+{
+	padding: 10px;
+}
+
+.photo-box-right
+{
+	float: right;
+	margin: 0 0 20px 20px;
+}
+
+.photo-box-left
+{
+	float: left;
+	margin: 0 20px 20px 0;
+}
+
+a img
+{
+	border: 0;
+}
+
+/* =HEADER
+------------------------------------------------------- */
+
+#ucsb-banner a
+{
+	color: #838184;
+	display: block;
+	font-size: 0.75em;
+	font-weight: bold;
+	height: 28px;
+	letter-spacing: 0.7em;
+	padding: 11px 0 0 0;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #FFF0B7;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+#header
+{
+	background: #1D4B9E url(../images/header_back.png) no-repeat;
+	height: 83px;
+	padding: 44px 13px 0;
+}
+
+#header h1
+{
+	float: left;
+}
+
+h1 a
+{
+	background: url(../images/header.png) no-repeat;
+	height: 51px;
+	width: 317px;
+}
+
+#search-form
+{
+	float: right;
+}
+
+#search-form label
+{
+	display: block;
+	height: 0;
+	overflow: hidden;
+	width: 0;
+}
+
+#search-form input
+{
+	background: #FFF url(../images/search_icon.png) no-repeat center right;
+	border: 0;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	font-family: Verdana, sans-serif;
+	height: 24px;
+	padding: 2px 5px;
+	width: 200px;
+}
+
+/* =NAVIGATION
+------------------------------------------------------- */
+
+#navigation ul
+{
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#navigation li
+{
+	float: left;
+	width: 192px;
+}
+
+#navigation a
+{
+	border-bottom: 2px solid #FFF;
+	color: #2867B8;
+	float: left;
+	font-size: 1.25em;
+	height: 39px;
+	padding: 15px 0 0 0;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	width: 100%;
+}
+
+#navigation li.selected a
+{
+	border-color: #2867B8;
+}
+
+#navigation a:hover
+{
+	color: #6C9EDD;
+}
+
+/* =CONTENT
+------------------------------------------------------- */
+
+#content
+{
+	background: url(../images/content_back.png) no-repeat;
+	background-position: 664px 0;
+	min-height: 117px;
+	padding: 1px 13px;
+}
+
+/* =FOOTER
+------------------------------------------------------- */
+
+#footer
+{
+	border-top: 2px solid #DBDBDB;
+	color: #DBDBDB;
+	font-size: 0.7em;
+	margin: 2em auto;
+	padding: 1em 0;
+	text-align: center;
+	text-transform: uppercase;
+	width: 934px;
+}
+
+#footer span
+{
+	background: url(../images/footer_back.png) no-repeat top center;
+	display: block;
+	margin-top: -2em;
+	padding: 36px 0 0;
+}
+
+/* =INTRO
+------------------------------------------------------- */
+
+.intro
+{
+	font-size: 1.5em;
+}
+
+/* =PHOTOS
+------------------------------------------------------- */
+
+ul.photo-list
+{
+	list-style: none;
+	margin: 0 0 0 -12px;
+	padding: 0;
+}
+
+.photo-list li
+{
+	background: #FFF;
+	float: left;
+	height: 180px;
+	margin: 0 15px 30px;
+	padding: 10px;
+	width: 180px;
+}
+
+.photo-list img
+{
+	height: 100%;
+	width: 100%;
+}
+
+/* =VISIT US
+------------------------------------------------------- */
+
+.map-wrapper
+{
+	height: 320px;
+	margin: 2em 0;
+}
+
+.map-wrapper img
+{
+	border: 2px solid #FFF;
+
+	float: left;
+}
+
+.map-info
+{
+	float: left;
+	margin: 0 0 0 30px;
+	width: 300px;
+}
+
+.map-info h3
+{
+	font-size: 1.65em;
+	margin-top: 0;
+}
+
+.address
+{
+	display: block;
+	font-size: 1.15em;
+	margin: 1em 0;
+}
+
+.phone
+{
+	display: block;
+	font-size: 1.1em;
+}
+
+/* =CONTACT
+------------------------------------------------------- */
+
+#contact-form
+{
+	width: 60%;
+}
+
+#contact-form ul
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#contact-form li
+{
+	margin: 0 0 1.5em 0;
+}
+
+#contact-form label
+{
+	display: block;
+	font-weight: bold;
+	margin: 0 0 0.5em 0;
+}
+
+#contact-form input, #contact-form textarea
+{
+	border: 1px solid #6C9EDD;
+	border-bottom-width: 2px;
+	font-family: Verdana, sans-serif;
+	font-size: 1.2em;
+	padding: 5px;
+	width: 80%;
+}
+
+#contact-name-wrapper
+{
+	float: left;
+	width: 50%;
+}
+
+#contact-email-wrapper
+{
+	float: right;
+	width: 50%;
+}
+
+#contact-form textarea
+{
+	height: 250px;
+	width: 90%;
+}
+
+.contact-quote
+{
+	border: 2px solid #DBDBDB;
+	border-width: 2px 0;
+	color: #2867B8;
+	float: right;
+	font-size: 2.75em;
+	font-style: italic;
+	line-height: 1em;
+	margin: 30px 0 0 0;
+	padding: 30px 0;
+	text-shadow: 0 2px 0 #DDD;
+	width: 39%;
+}
+
+#contact-submit-wrapper
+{
+	text-align: right;
+	padding: 0 8% 0 0;
+}
+
+#contact-form #contact-submit
+{
+	background: #2867B8 url(../images/header_back.png);
+	border-color: #22589B;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+	border-radius: 8px;
+	color: #FFF;
+	cursor: pointer;
+	font-family: Arial, sans-serif;
+	text-shadow: 0 2px 0 #22589B;
+	padding: 10px 0;
+	width: 40%;
+}

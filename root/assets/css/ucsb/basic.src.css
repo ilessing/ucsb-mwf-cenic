@@ -1,0 +1,30 @@
+#header.alt
+{
+	border-bottom: 3px solid #FC0;
+}
+
+body.front-page div#header
+{
+	background: url("http://mwf.library.ucsb.edu/assets/img/header-front-page-bg.png") repeat-x scroll 0 0 #536895;
+	height: 50px;
+}
+
+.breadcrumb
+{
+	font-weight: bold;
+	margin: 10px 0 10px 10px;
+}
+
+.mwf-credit
+{
+	font-style: italic;
+	font-weight: bold;
+}
+
+.content-elements > .content-header, .content-full > .content-header
+{
+	background-color: #E9E9E9;
+	color: #000000;
+	padding: 0.5em 0 0.4em;
+	text-align: center;
+}

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Mobile Demo Instructions</title>
+	
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Magra" type="text/css">
+	<link rel="stylesheet" href="style/sunburst.css" type="text/css" />
+	<link rel="stylesheet" href="style/modal.css" type="text/css" />
+	<link rel="stylesheet" href="style/main.css" type="text/css" />
+</head>
+<body>
+
+	<div id="main">
+
+	<h1>&ldquo;Going Mobile With MWF&rdquo; Demo</h1>
+	
+	<p>
+		In this tutorial, we&rsquo;ll be creating the mobile version of a desktop site from scratch using the
+		<a href="http://mwf.ucla.edu/" target="_blank">Mobile Web Framework</a>. I&rsquo;m sure you&rsquo;re raring to go,
+		so let&rsquo;s get started.
+	</p>
+	
+	<h2>Getting Started</h2>
+	
+	<p>
+		Download and unzip the <a href="mwfdemo.zip">example files</a>. 
+	</p>
+	
+	<p>
+		Inside you&rsquo;ll find a series of <abbr title="Hypertext Markup Language">HTML</abbr> pages that constitute a desktop site for a fake
+		<abbr title="University of California, Santa Barbara">UCSB</abbr> department. Open <code>index.html</code> and familiarize
+		yourself with the fake website; you&rsquo;ll be creating the mobile version.
+	</p>
+	
+	<p>
+		After you&rsquo;re finished, find the <code>m</code> directory. This is where the files for the mobile version of the website
+		will be stored. Within this directory, find the <code>template.html</code> file. Open it up and we&rsquo;ll get to work.
+	</p>
+	
+	<h2>Exploring the Template</h2>
+	
+	<p>
+		The template includes boilerplate HTML markup that
+		we can use as the basis for all of our <abbr title="Mobile Web Framework">MWF</abbr>-enabled websites.
+		You should keep this template around so that you can just copy-and-paste when creating a new mobile website.
+	</p>
+	
+	<p>
+		Before we start editing, let&rsquo;s explore the template. First, take a look at the <code>"viewport" meta</code> element:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;meta name="viewport" content="height=device-height,width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" /&gt;</code></pre>
+	
+	<p>
+		This tag ensures a consistent experience across various mobile devices. The <code>height=device-height</code>,
+		<code>width=device-width</code>, and <code>initial-scale=1.0</code> values set the default height, width,
+		and scale of the mobile browser&rsquo;s viewing area to fit device&rsquo;s dimensions, preventing the browser from assuming
+		the page was designed for desktop and zooming out.
+	</p>
+	
+	<p>
+		Similarly, <code>maximum-scale=1.0</code> and <code>user-scalable=no</code> prevent the <em>User</em> from
+		zooming in and out, which will be unnecessary as our MWF-enabled page
+		will fit snugly in the browser&rsquo;s viewing area.
+	</p>
+	
+	<p>
+		Next, let&rsquo;s check out the <code>"format-detection" meta</code> element:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;meta name="format-detection" content="telephone=no" /&gt;</code></pre>
+	
+	<p>
+		This little tag prevents modern mobile browsers from attempting to convert numbers to telephone number links
+		that can be used to start a phone call. As you&rsquo;ll see, we&rsquo;ll explicitly mark our telephone numbers, so we won&rsquo;t
+		need the browser&rsquo;s help.
+	</p>
+	
+	<p>
+		Alright, let&rsquo;s dig into the two most important elements:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;link rel="stylesheet" href="http://mwf.library.ucsb.edu/assets/css.php" type="text/css" /&gt;
+&lt;script src="http://mwf.library.ucsb.edu/assets/js.php" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+	
+	<p>
+		With only these two elements, we&rsquo;ve now enabled the Mobile Web Framework. The first element imports the
+		Framework&rsquo;s <abbr title="Cascading Style Sheets">CSS</abbr> while the second element imports the Framework&rsquo;s
+		JavaScript.
+	</p>
+	
+	<p>
+		You may have noticed that we are not directly referencing a CSS
+		file (.css) or a JavaScript file (.js); instead,
+		we&rsquo;re referencing a <abbr title="PHP: Hypertext Preprocessor">PHP</abbr> (.php) file. This is the magic of the
+		Framework: when the browser accesses these PHP handlers,
+		they dynamically return CSS and JavaScript appropriate to the
+		capabilities of the device. In other
+		words, a newer device will recieve the full experience (touch transitions, gradients, etc.), while an older
+		mobile phone will recieve a slightly degraded experience more appropriate for their device.
+	</p>
+	
+	<p>
+		The important thing to note here is that <strong>you, as the developer, are only providing one set of markup and the
+		framework is handling the messy details of detecting a device&rsquo;s capabilities and serving the appropriate
+		resources</strong>.
+	</p>
+	
+	<h2>Developing Locally</h2>
+	
+	<p>
+		Before we start, we&rsquo;ll need to do one thing first: visit
+		<a href="http://mwf.library.ucsb.edu/" target="_blank">UCSB&rsquo;s MWF website</a>. Just pop it open in a browser.
+		Why? Well, as you know, the Framework detects the capabilities of a User&rsquo;s device and serves the appropriate
+		CSS and JavaScript. It accomplishes this by storing information in a cookie. Generally, when a User visits a website powered
+		by UCSB&rsquo;s instance of MWF, the User will be redirected to
+		<a href="http://mwf.library.ucsb.edu/" target="_blank">UCSB&rsquo;s MWF website</a> and then redirected back to their
+		destination.
+	</p>
+	
+	<p>
+		However, when developing locally on our computer, the Framework can&rsquo;t perform this redirect loop. So, we just
+		need to hop over to <a href="http://mwf.library.ucsb.edu/" target="_blank">UCSB&rsquo;s MWF website</a> and grab
+		the cookie.
+	</p>
+	
+	<p>
+		Also, just a quick note: <strong>if you get lost within the instructions, use the &ldquo;View Full Source&rdquo;</strong>
+		links to view the entire markup for a page.
+	</p>
+	
+	<p>
+		Alright, enough talk, let&rsquo;s get to work.
+	</p>
+	
+	<a href="#source-about" class="view-source-link">View Full Source</a>
+	
+	<h2>Create an &ldquo;About&rdquo; Page</h2>
+	
+	<p>
+		The template file is great and all, but it doesn&rsquo;t contain anything interesting. Let&rsquo;s create a full-fledged
+		&ldquo;About&rdquo; page that we can use as a template for the rest of the sections of our mobile website. First,
+		copy the <code>template.html</code> file and create an <code>about.html</code> file.
+	</p>
+	
+	<p>
+		Open up <code>about.html</code> in a text editor and add the following between the <code>body</code> tags:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;h1 id="header"&gt;
+   &lt;img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header.png" /&gt;
+   &lt;span&gt;About&lt;/span&gt;
+&lt;/h1&gt;</code></pre>
+
+	<p>
+		You should also change "Section Title" in the <code>title</code> element to "About".
+	</p>
+	
+	<p>
+		Now, pop open <code>about.html</code> in a browser and check out your handiwork: you&rsquo;ve added a beautiful header bar to the first
+		section of your first MWF-powered website. The <code>header</code> CSS ID references styling rules provided
+		by the Framework and the UCSB header image is a standardized graphic stored on UCSB&rsquo;s MWF servers.
+	</p>
+	
+	<p>
+		Below the header, add the following content area:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div class="content-full content-padded"&gt;
+   &lt;h1&gt;About Us&lt;/h1&gt;
+   &lt;div&gt;
+      Founded in 2012 with the purpose of creating a fake department website for a mobile website demo.
+   &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		This adds a <strong>basic content block</strong>. To signal to the Framework that the <code>div</code> is a content block, we tack on the
+		<code>content-full</code> CSS class, which sets up some basic styling.
+		The <code>content-padded</code> CSS class adds the rounded corners and the
+		padding around the content area. Finally, if you view this in a browser, you&rsquo;ll notice that the Framework
+		automatically styles the <code>h1</code> element as a title bar with a gray gradient background and large,
+		bolded text.
+	</p>
+	
+	<p>
+		Next, we&rsquo;ll add a button to return to the home page (which we&rsquo;ll create in just a little bit):
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;a class="button-full button-padded" href="index.html"&gt;Back to Home&lt;/a&gt;</code></pre>
+	
+	<p>
+		Similarly to the content block, the <code>button-full</code> CSS class signals to the Framework that this
+		<strong><code>a</code> element is a button</strong> and the <code>button-padded</code> class adds rounded borders and padding.
+		Let&rsquo;s wrap up this page with a footer:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div id="footer"&gt;
+   &lt;p&gt;
+      &amp;copy;2012 The Regents of the University of California, All Rights Reserved
+      &lt;br /&gt;
+      &lt;a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php"&gt;Terms of Use&lt;/a&gt;
+      | &lt;a href="http://mwf.library.ucsb.edu/mwf/accessibility.php"&gt;Accessiblity&lt;/a&gt;
+      &lt;br /&gt;
+      &lt;a href="../index.html?override_redirect=1"&gt;View Full Site&lt;/a&gt;
+   &lt;/p&gt;
+   &lt;br /&gt;
+   &lt;p class="mwf-credit"&gt;
+      Powered by the &lt;a href="http://mwf.ucla.edu"&gt;Mobile Web Framework&lt;/a&gt;
+   &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		You know the drill by now: the <code>header</code> CSS ID and <code>mwf-credit</code> class reference some
+		<strong>footer-specific styling</strong> from the Framework. We&rsquo;ve also added some links here to standard, mobile-ready
+		<a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php" target="_blank">Terms of Use</a> and
+		<a href="http://mwf.library.ucsb.edu/mwf/accessibility.php" target="_blank">Accessibility</a> pages.
+	</p>
+	
+	<p>
+		However, there is something new here you haven&rsquo;t seen before: the <strong>&ldquo;View Full Site&rdquo; link</strong>. You&rsquo;ll notice the
+		URL for this link contains an <code>?override_redirect=1</code> at the end. As you&rsquo;ll see later on, the Framework will
+		automatically redirect mobile Users from the desktop to the mobile site. However, if we allow mobile Users to
+		override this behavior and return to the desktop site, we don&rsquo;t want to redirect them back to the mobile site.
+		To avoid this redirect loop, we tack on a <code>override_redirect GET</code> variable to the URL to tell the Framework
+		to temporarily disable the redirect behavior for the User.
+	</p>
+	
+	<p>
+		<strong>You&rsquo;re finished!</strong> You&rsquo;ve created a MWF-enabled &ldquo;About&rdquo; section! Pat yourself back and we&rsquo;ll jump into creating
+		a home page.
+	</p>
+	
+	<a href="#source-home" class="view-source-link">View Full Source</a>
+	
+	<h2>Create a &ldquo;Home&rdquo; Page</h2>
+	
+	<p>
+		We&rsquo;re going to add some special styling to our home page but, for the most part, our &ldquo;About&rdquo; page
+		and &ldquo;Home&rdquo; page will share a similar template, so go ahead and make a copy of <code>about.html</code>
+		named <code>index.html</code>. Open it up
+		and add the <code>front-page</code> CSS class to the <code>body</code> element:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;body class="front-page"&gt;</code></pre>
+		
+	<p>
+		This signals the Framework to add some <strong>home page-specific styling</strong> to the page, including a larger, brighter
+		banner at the top. Next, replace the <code>h1</code> element (with the <code>header</code> CSS ID) with this
+		<code>div</code>:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div id="header"&gt;
+   &lt;img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header-front.png" /&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		This replaces our header from the &ldquo;About&rdquo; page with a <strong>larger banner image for our home page</strong>.
+		You might have noticed
+		we just completely removed the title of the page, though, so let&rsquo;s put it back by adding this right beneath
+		the header <code>div</code> you just added:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div class="content-full content-padded"&gt;
+   &lt;h1&gt;Office of Lorem Ipsum Mobile&lt;/h1&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		This is just a regular content block as you&rsquo;ve seen before, but without any content and only a <code>h1</code>
+		element, it also functions as a <strong>nice, bold header for our home page</strong>.
+	</p>
+	
+	<p>
+		Alright, now it&rsquo;s time to add our <strong>navigation menu</strong>. Replace the main content block from your &ldquo;About&rdquo;
+		template with this:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div class="menu-full menu-front menu-detailed menu-padded"&gt;
+   &lt;ol&gt;
+      &lt;li&gt;&lt;a href="about.html"&gt;About&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="photos.html"&gt;Photos&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="visitus.html"&gt;Visit Us&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="contact.html"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+   &lt;/ol&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		Although this example presents new markup and new CSS classes, it&rsquo;s the same basic principle we&rsquo;ve followed
+		throughout the tutorial: add a few specific CSS classes to your HTML and the Framework&rsquo;s dynamic styling handles
+		the rest. <code>menu-full</code> is the basic menu class, <code>menu-front</code> adds some extra padding within
+		the menu items to create a larger menu for the home page, <code>menu-detailed</code> aligns the menu items to
+		the left (rather than centering them), and <code>menu-padded</code> adds, you guessed it, padding and rounded
+		corners.
+	</p>
+	
+	<p>
+		To clean things up, remove the &ldquo;Back to Home&rdquo; button and, of course, don&rsquo;t forget to change the &ldquo;About&rdquo; in
+		the title to &ldquo;Home&rdquo;.
+	</p>
+	
+	<p>
+		Oh, look, you&rsquo;re already <strong>finished with the home page</strong>. Now that you&rsquo;ve created a section and a home page, why
+		don&rsquo;t you start redirecting Users from your desktop to your mobile site?
+	</p>
+	
+	<h2>Add a Mobile Redirect</h2>
+	
+	<p>
+		Adding a mobile redirect is pretty straightforward, you just <strong>need to add a
+		<a href="https://github.com/ucla/mwf/wiki/API%3A-Script%3A-Redirect" target="_blank">single script include</a></strong>.
+		Let&rsquo;s add it to the home page of the desktop site. Open <code>index.html</code> in the main directory of our
+		example files (<em>not</em> the <code>m</code> directoy), and add the following to the head:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;script type="text/javascript" src="http://mwf.library.ucsb.edu/assets/redirect/js.php?m={YOUR_MOBILE_URL}"&gt;&lt;/script&gt;</code></pre>
+	
+	<p>
+		Unfortunately, because we&rsquo;re working locally, we don&rsquo;t have a live URL to set as our redirect
+		script&rsquo;s destination. In a live site, you would want to replace <code>{YOUR_MOBILE_URL}</code> with the
+		<a href="http://meyerweb.com/eric/tools/dencoder/" target="_blank">URL-encoded</a> URL of your website.
+	</p>
+	
+	<p>
+		But, suspend disbelief with me and <em>pretend</em> that we just put in a working mobile redirect, alright? If we had,
+		this script would be automatically redirecting Users from our mobile website to the specified URL.
+	</p>
+	
+	<p>
+		Now that you&rsquo;re (theoretically) redirecting Users, you should probably finish up the rest of your mobile site.
+		Let&rsquo;s start with the &ldquo;Visit Us&rdquo; page.
+	</p>
+	
+	<a href="#source-visitus" class="view-source-link">View Full Source</a>
+	
+	<h2>Create a &ldquo;Visit Us&rdquo; Page</h2>
+	
+	<p>
+		Create another copy of <code>about.html</code> and name it <code>visitus.html</code>. Replace the main content
+		block with the following:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div class="content-full content-padded"&gt;
+   &lt;h1&gt;Visit Us&lt;/h1&gt;
+   &lt;div&gt;
+      &lt;img width="600" height="320" alt="Map to the Office of Lorem Ipsum" src=""&gt;
+   &lt;/div&gt;
+   &lt;div&gt;
+      &lt;strong&gt;Office of Lorem Ipsum&lt;/strong&gt;
+			
+      &lt;br /&gt;
+			
+      4256 Donec Luctus Ave.&lt;br /&gt;
+      Aliquam, CA 95678
+			
+      &lt;br /&gt;
+      &lt;br /&gt;
+			
+      &lt;a href="tel:805-893-3592"&gt;(805) 893 3592&lt;/a&gt;
+   &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		Ignore that our image has no <code>src</code> value; we&rsquo;ll fix that in just a second.
+	</p>
+	
+	<p>
+		First, notice that, unlike our &ldquo;About&rdquo; page, this content block contains
+		two child <code>div</code>s: the first <code>div</code> contains the map, while the second <code>div</code>
+		contains the address information. The <strong>Framework recognizes this as two sections</strong> within a content block and
+		adds a divider line to separate them.
+	</p>
+	
+	<p>
+		Second, check out that <strong>telephone number link</strong>. Remember earlier when we said that we would disable the browser
+		automatically detecting phone numbers and turning them into links because we would handle it ourselves? Well,
+		we&rsquo;re doing that with the <code>tel</code> prefix in the <code>href</code> attribute. This prefix signals to
+		the browser that this is a link that should initiate a phone call.
+	</p>
+	
+	<p>
+		Now let&rsquo;s fix that image. For this example, we are going to use the
+		<strong><a href="https://developers.google.com/maps/documentation/staticmaps/" target="_blank">Google Static Maps API</a></strong>. With the
+		Google Static Maps API, we construct a URL that contains information about a location and then Google&rsquo;s
+		servers return a static image of the location. Our URL will contain the following parts:
+	</p>
+	
+	<ul>
+		<li><strong>Base URL:</strong> http://maps.googleapis.com/maps/api/staticmap?sensor=false</li>
+		<li><strong>Zoom Level:</strong> &amp;zoom=15</li>
+		<li><strong>Map Size:</strong> &amp;size=600x320</li>
+		<li><strong>Target Location:</strong> &amp;markers=34.41369,-119.843019</li>
+	</ul>
+	
+	<p>
+		Altogether, here&rsquo;s our static map URL:
+	</p>
+	
+	<code>
+		http://maps.googleapis.com/maps/api/staticmap?sensor=false&amp;zoom=15&amp;size=600x320&amp;markers=34.41369,-119.843019
+	</code>
+	
+	<p>
+		Since we&rsquo;ll be using the URL within our HTML, we&rsquo;ll want to encode those ampersands (swap <code>&amp;</code>
+		with <code>&amp;amp;</code>):
+	</p>
+	
+	<code>
+		http://maps.googleapis.com/maps/api/staticmap?sensor=false&amp;amp;zoom=15&amp;amp;size=600x320&amp;amp;markers=34.41369,-119.843019
+	</code>
+	
+	<p>
+		Now we can pop that URL into our image <code>src</code>:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;img width="600" height="320" alt="Map to the Office of Lorem Ipsum" src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&amp;amp;zoom=15&amp;amp;size=600x320&amp;amp;markers=34.41369,-119.843019" /&gt;</code></pre>
+	
+	<p>
+		Boom: <strong>you&rsquo;ve just added a map</strong> to your page! Next, let&rsquo;s put together a "Photos" page.
+	</p>
+	
+	<a href="#source-photos" class="view-source-link">View Full Source</a>
+	
+	<h2>Create a &ldquo;Photos&rdquo; Page</h2>
+	
+	<p>
+		Just like before, copy <code>about.html</code> and name the new file <code>photos.html</code>.
+		Replace the main content block with the following:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div class="content-full content-padded"&gt;
+   &lt;h1&gt;Photo Gallery&lt;/h1&gt;
+   &lt;div&gt;
+      &lt;img src="http://web.chem.ucsb.edu/~bazangroup/UCSB-from-air.jpg" /&gt;	
+   &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		You&rsquo;ve seen all of this before: a basic content block with a title and an image. Try opening this page in a
+		browser and resizing the window. You&rsquo;ll notice the <strong>image shrinks to fit the width of the browser</strong>. This is
+		wonderful, but Users on a mobile device will still download the full-scale image. We need some way to
+		provide an image appropriately resized for the viewing area of the User&rsquo;s device.
+	</p>
+	
+	<p>
+		Thankfully, the Framework has already solved this problem with the
+		<strong><a href="https://github.com/ucla/mwf/wiki/API%3A-Script%3A-Image-Compressor" target="_blank">Image Compressor</a></strong>.
+		Similar to the Google Static Maps API, we construct a URL that contains information about how we want to
+		resize the image and the Framework handles the rest.
+	</p>
+	
+	<p>
+		Let&rsquo;s put together the URL for our dynamically resized image. You&rsquo;ll need to do some hardcore URL encoding for
+		this, so go ahead and open up a <a href="http://meyerweb.com/eric/tools/dencoder/" target="_blank">URL encoder/decoder</a> tool
+		in another window. Alright, our URL will contain the following:
+	</p>
+	
+	<ul>
+		<li><strong>Base URL:</strong> http://mwf.library.ucsb.edu/assets/min/img.php?</li>
+		<li><strong>URL-encoded Image Souce:</strong> img=http%3A%2F%2Fweb.chem.ucsb.edu%2F~bazangroup%2FUCSB-from-air.jpg</li>
+		<li><strong>Percentage of User&rsquo;s Browser Width:</strong> &amp;browser_width_percent=80</li>
+		<li><strong>Maximum Width:</strong> &amp;max_width=400</li>
+	</ul>
+	
+	<p>
+		Putting this altogether (and also URL-encoding the ampersands):
+	</p>
+	
+	<code>
+		http://mwf.library.ucsb.edu/assets/min/img.php?img=http%3A%2F%2Fweb.chem.ucsb.edu%2F~bazangroup%2FUCSB-from-air.jpg&amp;amp;browser_width_percent=80&amp;amp;max_width=400
+	</code>
+	
+	<p>
+		Just swap out the original image source with this one and <em>voil&aacute;</em>, you&rsquo;ve added an image that
+		will dynamically resize to fit the needs of the User&rsquo;s device.
+	</p>
+	
+	<p>
+		While we&rsquo;re here, why don&rsquo;t we add a <strong>couple buttons to let the User navigate through a gallery of images?</strong>
+		Add this below the main content block:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;div class="button-full button-padded"&gt;
+   &lt;a href="#" class="button-first button-light"&gt;Previous Image&lt;/a&gt;
+   &lt;a href="#" class="button-last button-light"&gt;Next Image&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+	
+	<p>
+		You&rsquo;ve seen buttons before, but there are a couple neat things happening here.
+	</p>
+	
+	<p>
+		First, you&rsquo;ll notice that there
+		are two links within this button <code>div</code>, rather than a single link as seen in previous examples.
+		Along with that, the first link has a <code>button-first</code> CSS class, while the second link has a
+		<code>button-last</code> class. With these classes, the <strong>Framework will style these buttons by placing them
+		side-by-side</strong>, with the first button on the left and the second on the right.
+	</p>
+	
+	<p>
+		We also added a <code>button-light</code> class to the links, which will <strong>provide a &ldquo;softer&rdquo; look and feel to
+		our buttons</strong>, to help differentiate them from the other buttons on the page.
+	</p>
+	
+	<p>
+		We&rsquo;ll want to keep moving forward, so let&rsquo;s leave he number signs (#) instead of URLs for right now. When you
+		come back to this page after finishing the tutorial, you can change these links to point to other pages with
+		more images.
+	</p>
+	
+	<a href="#source-contact" class="view-source-link">View Full Source</a>
+	
+	<h2>Create a &ldquo;Contact Us&rdquo; Page</h2>
+	
+	<p>
+		Phew, alright, so you&rsquo;ve created a full-featured mobile website with a basic &ldquo;About&rdquo; page, a home page with a
+		mobile-friendly navigation menu, a &ldquo;Visit Us&rdquo; page containing a static Google map, and a &ldquo;Photos&rdquo; page with a
+		dynamically-resized image. Let&rsquo;s cap it off with a &ldquo;Contact Us&rdquo; page.
+	</p>
+	
+	<p>
+		You&rsquo;re a pro at this by now: copy <code>about.html</code> and name the new file <code>contact.html</code>. Replace the main content
+		block with the following:
+	</p>
+	
+	<pre class="prettyprint"><code>&lt;form class="form-full form-padded"&gt;
+   &lt;label for="contact-name"&gt;Name&lt;/label&gt;
+   &lt;input type="text" id="contact-name" name="name" /&gt;
+		
+   &lt;label for="contact-email"&gt;E-mail&lt;/label&gt;
+   &lt;input type="text" id="contact-email" name="email" /&gt;
+		
+   &lt;label for="contact-message"&gt;Message&lt;/label&gt;
+   &lt;textarea id="contact-message" name="message"&gt;&lt;/textarea&gt;
+		
+   &lt;input type="submit" value="Send Message" /&gt;
+&lt;/form&gt;</code></pre>
+	
+	<p>
+		There&rsquo;s nothing really surprising going on here: we&rsquo;ve just created a regular HTML form and tacked on
+		<code>form-full</code> and <code>form-padded</code> CSS classes (I&rsquo;ll let you guess which one sets up the basic
+		styling for the form and which one adds rounded corners and padding).
+	</p>
+	
+	<p>
+		Open this up in a browser and check out
+		what you&rsquo;ve come to expect at this point: the <strong>Framework has completely styled the form for you</strong>.
+	</p>
+	
+	<h2>Congratulations!</h2>
+	
+	<p>
+		<strong>Nice work!</strong> You&rsquo;ve created a full-featured, MWF-powered mobile website!
+	</p>
+	
+	<p>
+		As you can see, MWF makes mobile web development easy by handling all of the nitty-gritty details for you and
+		providing helpful utilities, like the Image Compressor. For more information, visit the
+		<a href="https://github.com/ucla/mwf/wiki" target="_blank">MWF Wiki</a>.
+	</p>
+	
+	</div>
+	
+	<div id="source-about" class="view-source">
+		<h2>Full &ldquo;About&rdquo; Source</h2>
+		
+		<pre class="prettyprint"><code>&lt;body&gt;
+
+   &lt;h1 id="header"&gt;
+      &lt;img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header.png" /&gt;
+      &lt;span&gt;About&lt;/span&gt;
+   &lt;/h1&gt;
+
+   &lt;div class="content-full content-padded"&gt;
+      &lt;h1&gt;About Us&lt;/h1&gt;
+      &lt;div&gt;
+         Founded in 2012 with the purpose of creating a fake department website for a mobile website demo.
+      &lt;/div&gt;
+   &lt;/div&gt;
+
+   &lt;a class="button-full button-padded" href="index.html"&gt;Back to Home&lt;/a&gt;
+
+   &lt;div id="footer"&gt;
+      &lt;p&gt;
+         &amp;copy;2012 The Regents of the University of California, All Rights Reserved
+         &lt;br /&gt;
+         &lt;a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php"&gt;Terms of Use&lt;/a&gt;
+         | &lt;a href="http://mwf.library.ucsb.edu/mwf/accessibility.php"&gt;Accessiblity&lt;/a&gt;
+         &lt;br /&gt;
+         &lt;a href="../index.html?override_redirect=1"&gt;View Full Site&lt;/a&gt;
+      &lt;/p&gt;
+      &lt;br /&gt;
+      &lt;p class="mwf-credit"&gt;
+         Powered by the &lt;a href="http://mwf.ucla.edu"&gt;Mobile Web Framework&lt;/a&gt;
+      &lt;/p&gt;
+   &lt;/div&gt;
+
+&lt;/body&gt;</code></pre>
+	</div>
+	
+	<div id="source-home" class="view-source">
+		<h2>Full &ldquo;Home&rdquo; Source</h2>
+		
+		<pre class="prettyprint"><code>&lt;body class="front-page"&gt;
+
+&lt;div id="header"&gt;
+   &lt;img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header-front.png" /&gt;
+&lt;/div&gt;
+
+&lt;div class="content-full content-padded"&gt;
+   &lt;h1&gt;Office of Lorem Ipsum Mobile&lt;/h1&gt;
+&lt;/div&gt;
+
+&lt;div class="menu-full menu-front menu-detailed menu-padded"&gt;
+   &lt;ol&gt;
+      &lt;li&gt;&lt;a href="about.html"&gt;About&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="photos.html"&gt;Photos&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="visitus.html"&gt;Visit Us&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="contact.html"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+   &lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="footer"&gt;
+   &lt;p&gt;
+      &amp;copy;2012 The Regents of the University of California, All Rights Reserved
+      &lt;br /&gt;
+      &lt;a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php"&gt;Terms of Use&lt;/a&gt;
+      | &lt;a href="http://mwf.library.ucsb.edu/mwf/accessibility.php"&gt;Accessiblity&lt;/a&gt;
+      &lt;br /&gt;
+      &lt;a href="../index.html?override_redirect=1"&gt;View Full Site&lt;/a&gt;
+   &lt;/p&gt;
+   &lt;br /&gt;
+   &lt;p class="mwf-credit"&gt;
+      Powered by the &lt;a href="http://mwf.ucla.edu"&gt;Mobile Web Framework&lt;/a&gt;
+   &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;</code></pre>
+	</div>
+	
+	<div id="source-visitus" class="view-source">
+		<h2>Full &ldquo;Visit Us&rdquo; Source</h2>
+		
+		<pre class="prettyprint"><code>&lt;body&gt;
+		
+   &lt;h1 id="header"&gt;
+      &lt;img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header.png" /&gt;
+      &lt;span&gt;Visit Us&lt;/span&gt;
+   &lt;/h1&gt;
+
+   &lt;div class="content-full content-padded"&gt;
+      &lt;h1&gt;Visit Us&lt;/h1&gt;
+      &lt;div&gt;
+         &lt;img width="600" height="320" alt="Map to the Office of Lorem Ipsum" src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&amp;zoom=15&amp;size=600x320&amp;markers=34.41369,-119.843019" /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+         &lt;strong&gt;Office of Lorem Ipsum&lt;/strong&gt;
+			
+         &lt;br /&gt;
+			
+         4256 Donec Luctus Ave.&lt;br /&gt;
+         Aliquam, CA 95678
+			
+         &lt;br /&gt;
+         &lt;br /&gt;
+			
+         &lt;a href="tel:805-893-3592"&gt;(805) 893 3592&lt;/a&gt;
+      &lt;/div&gt;
+   &lt;/div&gt;
+
+   &lt;a class="button-full button-padded" href="index.html"&gt;Back to Home&lt;/a&gt;
+
+   &lt;div id="footer"&gt;
+      &lt;p&gt;
+         &amp;copy;2012 The Regents of the University of California, All Rights Reserved
+         &lt;br /&gt;
+         &lt;a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php"&gt;Terms of Use&lt;/a&gt;
+         | &lt;a href="http://mwf.library.ucsb.edu/mwf/accessibility.php"&gt;Accessiblity&lt;/a&gt;
+         &lt;br /&gt;
+         &lt;a href="../index.html?override_redirect=1"&gt;View Full Site&lt;/a&gt;
+      &lt;/p&gt;
+      &lt;br /&gt;
+      &lt;p class="mwf-credit"&gt;
+         Powered by the &lt;a href="http://mwf.ucla.edu"&gt;Mobile Web Framework&lt;/a&gt;
+      &lt;/p&gt;
+   &lt;/div&gt;
+
+&lt;/body&gt;</code></pre>
+	</div>
+	
+	<div id="source-photos" class="view-source">
+		<h2>Full &ldquo;Photos&rdquo; Source</h2>
+		
+		<pre class="prettyprint"><code>&lt;body&gt;
+
+   &lt;h1 id="header"&gt;
+      &lt;img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header.png" /&gt;
+      &lt;span&gt;Photos&lt;/span&gt;
+   &lt;/h1&gt;
+
+   &lt;div class="content-full content-padded"&gt;
+      &lt;h1&gt;Photo Gallery&lt;/h2&gt;
+      &lt;div&gt;
+         &lt;img src="http://mwf.library.ucsb.edu/assets/min/img.php?img=http%3A%2F%2Fweb.chem.ucsb.edu%2F~bazangroup%2FUCSB-from-air.jpg&amp;browser_width_percent=80&amp;max_width=400 " /&gt;	
+      &lt;/div&gt;
+   &lt;/div&gt;
+
+   &lt;div class="button-full button-padded"&gt;
+      &lt;a href="#" class="button-first button-light"&gt;Previous Image&lt;/a&gt;
+      &lt;a href="#" class="button-last button-light"&gt;Next Image&lt;/a&gt;
+   &lt;/div&gt;
+
+   &lt;a class="button-full button-padded" href="index.html"&gt;Back to Home&lt;/a&gt;
+
+   &lt;div id="footer"&gt;
+      &lt;p&gt;
+         &amp;copy;2012 The Regents of the University of California, All Rights Reserved
+         &lt;br /&gt;
+         &lt;a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php"&gt;Terms of Use&lt;/a&gt;
+         | &lt;a href="http://mwf.library.ucsb.edu/mwf/accessibility.php"&gt;Accessiblity&lt;/a&gt;
+         &lt;br /&gt;
+         &lt;a href="../index.html?override_redirect=1"&gt;View Full Site&lt;/a&gt;
+      &lt;/p&gt;
+      &lt;br /&gt;
+      &lt;p class="mwf-credit"&gt;
+         Powered by the &lt;a href="http://mwf.ucla.edu"&gt;Mobile Web Framework&lt;/a&gt;
+      &lt;/p&gt;
+   &lt;/div&gt;
+
+&lt;/body&gt;</code></pre>
+	</div>
+	
+	<div id="source-contact" class="view-source">
+		<h2>Full &ldquo;Contact Us&rdquo; Source</h2>
+		
+		<pre class="prettyprint"><code>&lt;body&gt;
+
+&lt;h1 id="header"&gt;
+   &lt;img alt="UCSB" src="http://mwf.library.ucsb.edu/assets/img/ucsb-header.png" /&gt;
+   &lt;span&gt;Contact Us&lt;/span&gt;
+&lt;/h1&gt;
+
+&lt;form class="form-full form-padded"&gt;
+   &lt;label for="contact-name"&gt;Name&lt;/label&gt;
+   &lt;input type="text" id="contact-name" name="name" /&gt;
+		
+   &lt;label for="contact-email"&gt;E-mail&lt;/label&gt;
+   &lt;input type="text" id="contact-email" name="email" /&gt;
+		
+   &lt;label for="contact-message"&gt;Message&lt;/label&gt;
+   &lt;textarea id="contact-message" name="message"&gt;&lt;/textarea&gt;
+		
+   &lt;input type="submit" value="Send Message" /&gt;
+&lt;/form&gt;
+
+&lt;a class="button-full button-padded" href="index.html"&gt;Back to Home&lt;/a&gt;
+
+&lt;div id="footer"&gt;
+   &lt;p&gt;
+      &amp;copy;2012 The Regents of the University of California, All Rights Reserved
+      &lt;br /&gt;
+      &lt;a href="http://mwf.library.ucsb.edu/mwf/termsofuse.php"&gt;Terms of Use&lt;/a&gt;
+      | &lt;a href="http://mwf.library.ucsb.edu/mwf/accessibility.php"&gt;Accessiblity&lt;/a&gt;
+      &lt;br /&gt;
+      &lt;a href="../index.html?override_redirect=1"&gt;View Full Site&lt;/a&gt;
+   &lt;/p&gt;
+   &lt;br /&gt;
+   &lt;p class="mwf-credit"&gt;
+      Powered by the &lt;a href="http://mwf.ucla.edu"&gt;Mobile Web Framework&lt;/a&gt;
+   &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;</code></pre>
+	</div>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="script/prettify.js"></script>
+	<script type="text/javascript" src="script/jquery.simplemodal.1.4.2.min.js"></script>
+	<script type="text/javascript" src="script/main.js"></script>
+</body>
+</html>
