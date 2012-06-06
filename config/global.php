@@ -13,6 +13,7 @@
  */
 
 require_once(dirname(dirname(__FILE__)).'/root/assets/lib/config.class.php');
+require_once(dirname(dirname(__FILE__)).'/root/assets/lib/https.class.php');
 
 /**
  * PATHS
@@ -26,8 +27,14 @@ require_once(dirname(dirname(__FILE__)).'/root/assets/lib/config.class.php');
  * DO NOT INCLUDE A TRAILING SLASH
  */
 
-Config::set('global', 'site_url', false);
-Config::set('global', 'site_assets_url', false);
+$ucsblibrary_mwf_site_url = 'http://mwf.library.ucsb.edu';
+if(isset($_SERVER['sslforward']) AND ($_SERVER['sslforward'] == 1)){
+	$ucsblibrary_mwf_site_url = HTTPS::convert_path($ucsblibrary_mwf_site_url);
+	}
+
+
+Config::set('global', 'site_url', $ucsblibrary_mwf_site_url);
+Config::set('global', 'site_assets_url', $ucsblibrary_mwf_site_url.'/assets');
 Config::set('global', 'site_nonmobile_url', false);
 Config::set('global', 'full_site_url', false);
 Config::set('global', 'help_site_url', false);
@@ -65,10 +72,10 @@ Config::set('global', 'appicon_allow_disable_flag', true);
 Config::set('global', 'back_to_home_text',          'Go Back to Home');
 Config::set('global', 'charset',                    false);
 Config::set('global', 'copyright_text',             'University of California &copy; 2010-11 UC Regents');
-Config::set('global', 'header_home_button',         Config::get('global', 'site_assets_url').'/img/mwf-header.gif');
+Config::set('global', 'header_home_button',         Config::get('global', 'site_assets_url').'/img/ucsb-header.png');
 Config::set('global', 'header_home_button_alt',     'MWF');
 Config::set('global', 'language',                   false);
-Config::set('global', 'title_text',                 'UCLA MWF');
+Config::set('global', 'title_text',                 'UCSB MWF');
 
 /******************************************************************
  *

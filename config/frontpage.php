@@ -31,10 +31,10 @@ Config::set('frontpage', 'help_site_url', Config::get('global', 'help_site_url')
  * header_main_text
  */
 
-Config::set('frontpage', 'header_image_main', Config::get('global', 'site_assets_url').'/img/mwf-header-front.gif');
+Config::set('frontpage', 'header_image_main', Config::get('global', 'site_assets_url').'/img/ucsb-header-front.png');
 Config::set('frontpage', 'header_image_main_alt', 'MWF');
 Config::set('frontpage', 'header_image_sub_alt', 'MWF');
-Config::set('frontpage', 'header_image_sub', Config::get('global', 'site_assets_url').'/img/mwf-header.gif');
+Config::set('frontpage', 'header_image_sub', Config::get('global', 'site_assets_url').'/img/ucsb-header.png');
 Config::set('frontpage', 'header_main_text', 'UCLA Mobile Web Framework');
 
 

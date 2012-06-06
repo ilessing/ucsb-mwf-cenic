@@ -27,4 +27,6 @@ require_once(dirname(dirname(__FILE__)).'/root/assets/lib/config.class.php');
  * assets/css/2/basic.css. FALSE specifies no additional directories of sheets
  * to load.
  */
-Config::set('css', 'custom', false);
+
+# DEV-616 
+Config::set('css', 'custom', 'ucsb');
