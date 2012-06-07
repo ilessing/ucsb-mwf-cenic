@@ -1,9 +1,10 @@
 <?php
-
 /* Return URL */
-
 // Return URL is set to the main MWF UCSB site, by default
 $return_url = 'http://mwf.library.ucsb.edu/';
+
+require_once("Mail.php");
+
 
 if(isset($_SERVER['HTTP_REFERER']))
 {
@@ -11,7 +12,6 @@ if(isset($_SERVER['HTTP_REFERER']))
 }
 
 /* E-mail */
-
 $name = '';
 $email = '';
 $message = '';
@@ -43,33 +43,60 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
 
 	if(!$errortext)
 	{
-		mail("mark.grosch@sa.ucsb.edu", "Message Sent From MWF Accessibility Page", "NAME: " . $name . "\nEMAIL: " . $email . "\nMESSAGE: " . $message);
-		$success = true;
+		$from = $email;
+		$to = "mark.grosch@sa.ucsb.edu";
+		$subject = "Message From MWF Accessibility Page";
+		$body = "Name: $name \n";
+		$body .= "email: $email \n";
+		$body .= "Message: $message \n\n";
+		$body .= "originating IP: ".$_SERVER['HTTP_X_FORWARDED_FOR']." \n";
+		$body .= "sent from: http://".$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']." \n";
+		$body .= "user agent (browser): ".$_SERVER['HTTP_USER_AGENT']." \n";
+		
+		$host = "zimbra-mta1.library.ucsb.edu";
+		 
+		$headers = array (
+			'From' => $from,
+			'To' => $to,
+			'Subject' => $subject
+			);
+		$smtp = Mail::factory('smtp',
+			array (
+				'host' => $host,
+				'auth' => false,
+				)
+			);
+		 
+		$mail = $smtp->send($to, $headers, $body);
+		 
+		if (PEAR::isError($mail)) {
+			$success = false;
+			}else{
+				
+				$success = true;
+				}
 	}
 }
 ?>
-
 <!DOCTYPE html>
- 
 <html lang="en-us">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="height=device-height,width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
-    <meta name="format-detection" content="telephone=no" />
- 
-    <title>Accessibility</title>
- 
-    <link rel="stylesheet" href="http://mwf.library.ucsb.edu/assets/css.php" type="text/css" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="height=device-height,width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+	<meta name="format-detection" content="telephone=no" />
 
-    <script src="http://mwf.library.ucsb.edu/assets/js.php" type="text/javascript"></script>
+	<title>Accessibility</title>
+
+	<link rel="stylesheet" href="http://mwf.library.ucsb.edu/assets/css.php" type="text/css" />
+
+	<script src="http://mwf.library.ucsb.edu/assets/js.php" type="text/javascript"></script>
 </head>
 <body>
- 
 	<div id="header">
 		<img src="http://sist.sa.ucsb.edu/images/ucsb-header.png" alt="UCSB" />
 		<span>Accessibility</span>
 	</div>
- 
+
 	<?php
 	
 		// If message has been successfully sent, don't show intro message
@@ -154,11 +181,11 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
 	?>
 	
 	<a href="<?php echo $return_url; ?>" class="return-btn button-full button-padded">Go Back To Home</a>
- 
+
 	<div id="footer">
 		<p>University of California &copy; 2011-12 UC Regents</p>
 		<p class="mwf-credit">Powered by the <br /><a target="_blank" href="http://mwf.ucla.edu">Mobile Web Framework</a></p>
 	</div>
- 
+
 </body>
 </html>
