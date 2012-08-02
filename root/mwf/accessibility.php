@@ -93,7 +93,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
 </head>
 <body>
 	<div id="header">
-		<img src="http://sist.sa.ucsb.edu/images/ucsb-header.png" alt="UCSB" />
+		<img src="http://mwf.library.ucsb.edu/assets/img/ucsb-header.png" alt="UCSB" />
 		<span>Accessibility</span>
 	</div>
 
@@ -107,7 +107,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST")
 		<div>
 		
 			<p>
-				If any of the material on this page is not accessible to you, please send us an email we will provide alternatives:
+				If any of the material on this page is not accessible to you, please send us an email and we will provide alternatives:
 			</p>
 		
 		</div>
