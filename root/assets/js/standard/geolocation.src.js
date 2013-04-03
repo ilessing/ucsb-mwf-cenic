@@ -5,15 +5,29 @@
  *   mwf.touch.geolocation.getApi() -> Geolocation API (HTML5 or Google Gears)
  *   mwf.touch.geolocation.isSupported() -> boolean
  *   mwf.touch.geolocation.getPosition(onSuccessCallback, onFailureCallback) -> [['latitude']=>decimal, ['longitude']=>decimal, ['accuracy']=>decimal]
+ *   mwf.touch.geolocation.getCurrentPosition(onSuccessCallback, onFailureCallback) -> [['latitude']=>decimal, ['longitude']=>decimal, ['accuracy']=>decimal]
  *   mwf.touch.geolocation.watchPosition(onSuccessCallback, onFailureCallback) -> [['latitude']=>decimal, ['longitude']=>decimal, ['accuracy']=>decimal]
  *   mwf.touch.geolocation.clearWatch(watchID)
+ *   
+ *   @todo: For 2.0, do not return lat,long,accuracy.  Return the position object in its entirety instead.
  */
 
-mwf.touch.geolocation = new function()
+mwf.standard.geolocation = new function(optionalGeolocationObject)
 {
-    var ERROR = {
+    var ERROR_MESSAGE = {
         GENERAL: 'Geolocation failure.',
-        NO_SUPPORT: 'No geolocation support available.'
+        NO_SUPPORT: 'No geolocation support available.',
+        PERMISSION_DENIED: 'Geolocation permission not granted.'
+    };
+    
+    var ERROR = {
+        NO_SUPPORT: {
+            code: 2,
+            message: ERROR_MESSAGE.NO_SUPPORT,
+            PERMISSION_DENIED: 1,
+            POSITION_UNAVAILABLE: 2,
+            TIMEOUT: 3
+        }
     };
 
     var type = -1;
@@ -26,40 +40,64 @@ mwf.touch.geolocation = new function()
     
     //The maximum time (in milliseconds) for which you are prepared to allow 
     //the device to try to obtain a Geo location.
-    var geoTimeout = 5000;
+    var geoTimeout = 5000;    
     
+    var geolocationObject = typeof optionalGeolocationObject == "undefined" ? undefined : optionalGeolocationObject;
+    
+    /**
+     * @deprecated (should be a private or protected method)
+     */
     this.getType = function()
     {
         if(type < 0)
-            type = navigator.geolocation
-                   ? 1
-                   : google.gears
-                     ? 2
-                     : 0;
+            type =             
+            typeof geolocationObject != "undefined" 
+            ? 3
+            : navigator.geolocation
+            ? 1
+            : typeof google != 'undefined' && google.gears
+            ? 2
+            : 0;
         return type;
     }
 
+    /**
+     * @deprecated (unnecessary)
+     */
     this.getTypeName = function()
     {
         switch(this.getType())
         {
-            case 1: return 'HTML5 Geolocation';
-            case 2: return 'Google Gears';
-            default: return 'Unsupported';
+            case 1:
+                return 'HTML5 Geolocation';
+            case 2:
+                return 'Google Gears';
+            case 3:
+                return "Custom";
+            default:
+                return 'Unsupported';
         }
     }
     
+    /**
+     * @deprecated (should be a private or protected method)
+     */
     this.getApi = function()
     {
-        switch(this.getType())
-        {
-            case 1:
-                return navigator.geolocation;
-            case 2:
-                return google.gears.factory.create('beta.geolocation');
-            default:
-                return null;
+        if (typeof geolocationObject == "undefined") {
+            switch(this.getType())
+            {
+                case 1:
+                    geolocationObject = navigator.geolocation;
+                    break;
+                case 2:
+                    geolocationObject = google.gears.factory.create('beta.geolocation');
+                    break;
+                default:
+                    geolocationObject = null;
+            }
         }
+        return geolocationObject;
     }
 
     this.isSupported = function()
@@ -67,13 +105,20 @@ mwf.touch.geolocation = new function()
         return this.getType() > 0;
     }
 
+    /**
+     * getPosition() is deprecated. Use getCurrentPosition() instead.
+     *
+     * @deprecated
+     * @return void
+     */
     this.getPosition = function(onSuccess, onError)
-    {
+    {   
         var geo = this.getApi();
-        
-        if(!geo)
+        if(geo === null)
         {
-            onError(ERROR.NO_SUPPORT);
+            if(typeof onError != 'undefined') {
+                onError(ERROR_MESSAGE.NO_SUPPORT);
+            }
             return;
         }
 
@@ -85,23 +130,64 @@ mwf.touch.geolocation = new function()
                         'longitude':position.coords.longitude,
                         'accuracy':position.coords.accuracy
                     });
-
-            }, function() {
-                if(typeof onError != 'undefined')
-                    onError(ERROR.GENERAL);
+            }, function(error) {
+                if(typeof onError != 'undefined') {
+                    var errorMsg = error.code == error.PERMISSION_DENIED ?
+                    ERROR_MESSAGE.PERMISSION_DENIED : ERROR_MESSAGE.GENERAL;
+                    onError(errorMsg);
+                }         
             },
-            {enableHighAccuracy:highAccuracy, maximumAge:timeout, timeout: geoTimeout});
+            {
+                enableHighAccuracy:highAccuracy, 
+                maximumAge:timeout, 
+                timeout: geoTimeout
+            });
 
-        return true;
+        return;
+    }
+    
+    this.getCurrentPosition = function(onSuccess, onError)
+    {      
+        var geo = this.getApi();
+
+        if(geo === null)
+        {
+            if(typeof onError == 'function')
+                onError(ERROR.NO_SUPPORT);
+            return;
+        }
+
+        geo.getCurrentPosition(
+            function(position) {
+                if(typeof onSuccess == 'function')
+                    onSuccess({
+                        'latitude':position.coords.latitude,
+                        'longitude':position.coords.longitude,
+                        'accuracy':position.coords.accuracy
+                    });
+            }, function(error) {
+                if(typeof onError == 'function') {
+                    onError(error);
+                }         
+            },
+            {
+                enableHighAccuracy:highAccuracy, 
+                maximumAge:timeout, 
+                timeout: geoTimeout
+            });
+
+        return;
     }
     
     this.watchPosition = function(onSuccess, onError)
     {
         var geo = this.getApi();
-        
+
         if(!geo)
         {
-            onError(ERROR.NO_SUPPORT);
+            if(typeof onError == 'function') {
+                onError(ERROR.NO_SUPPORT);
+            }
             return;
         }
 
@@ -118,9 +204,9 @@ mwf.touch.geolocation = new function()
                 
             },
             
-            // An error occurred
             function(err) {
-                onError && onError(ERROR.GENERAL);
+                if (typeof onError == 'function')
+                    onError(err);
             },
             
             // Options
@@ -129,7 +215,7 @@ mwf.touch.geolocation = new function()
                 maximumAge: timeout,
                 timeout: geoTimeout
             }
-        );
+            );
         
         return watchID;
     }
@@ -137,14 +223,9 @@ mwf.touch.geolocation = new function()
     this.clearWatch = function(watchID)
     {
         var geo = this.getApi();
-        
-        if(!geo)
-        {
-            onError(ERROR.NO_SUPPORT);
-            return;
-        }
-        
-        geo.clearWatch(watchID);
+
+        if(geo !== null)
+            geo.clearWatch(watchID);
     }
 
     this.setTimeout = function(ms)
@@ -157,3 +238,5 @@ mwf.touch.geolocation = new function()
         highAccuracy = bool;
     }
 }
+
+mwf.touch.geolocation = mwf.standard.geolocation;

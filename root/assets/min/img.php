@@ -11,7 +11,7 @@
  * @author ebollens
  * @copyright Copyright (c) 2010-11 UC Regents
  * @license http://mwf.ucla.edu/license
- * @version 20111007
+ * @version 20120303
  *
  * @uses Device
  * @uses Screen
@@ -21,7 +21,7 @@
  * If no img is provided, exit.
  */
 if (!isset($_GET['img'])) {
-    error_log('MWF Notice: Required URL parameter "img" not provided to ' . $_SERVER['PHP_SELF'], 0);
+    trigger_error('Required URL parameter "img" not provided to ' . $_SERVER['PHP_SELF'], E_USER_NOTICE);
     exit(1);
 }
 
@@ -35,13 +35,13 @@ include_once(dirname(dirname(__FILE__)) . '/lib/image.class.php');
  * @var int maximum width the image should be as defined first by the browser
  *          width and then more specifically by URI parameters.
  */
-$max_width = Screen::get_width() ? Screen::get_width() * Screen::get_pixel_ratio() : PHP_INT_MAX;
+$max_width = Screen::get_width() ? Screen::get_width() : PHP_INT_MAX;
 
 /**
  * @var int maximum height the image should be as defined first by the browser
  *          width and then more specifically by URI parameters.
  */
-$max_height = Screen::get_height() ? Screen::get_height() * Screen::get_pixel_ratio() : PHP_INT_MAX;
+$max_height = Screen::get_height() ? Screen::get_height() : PHP_INT_MAX;
 
 /**
  * @var bool true if the image should be compressed based on width.
@@ -91,7 +91,7 @@ if (isset($_GET['browser_height_percent']) || isset($_GET['browser_height_force'
 $image = Image::factory($_GET['img']);
 
 if (! $image) {
-    error_log('MWF Notice: Image creation failed in ' . $_SERVER['PHP_SELF'] . '. Bad image path?: ' . $_GET['img'], 0);
+    trigger_error('Image creation failed in ' . $_SERVER['PHP_SELF'] . '. Bad image path?: ' . $_GET['img'], E_USER_NOTICE);
     exit(1);
 }
 
@@ -107,4 +107,4 @@ if ($set_height)
 header("Content-type: " . $image->get_mimetype());
 
 /** Output the binary content of the image in its compressed state. */
-echo $image->get_image_as_string();
+echo $image->find_or_create_image_as_string();
