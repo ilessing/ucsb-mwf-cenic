@@ -36,20 +36,19 @@ echo Site_Decorator::header()
         ->set_title('MWF About')
         ->render();
 
-echo Site_Decorator::content()
-            ->set_padded()
-            ->add_header('UCSB Local Details')
-            ->add_paragraph('
-            <a href="https://it.ucsb.edu/groups/mdg">The Mobile Development Group</a> at UCSB will be the organizing point for campus web developers interested in collaborating with others on this instance of the MWF for UCSB.
-            
-            The <a href="http://www.library.ucsb.edu/" >UCSB Library</a> is hosting an instance of the framework for the UCSB Community.  This instance of MWF was last updated 2012_01_24  to  version 1.2.10.  Please contact 
-            <a href="http://www.library.ucsb.edu/staff?term_node_tid_depth=396"">Ian Lessing</a> at the Library or 
-            <a href="http://sist.sa.ucsb.edu/">Joe Sabado</a> in Student Affairs with questions, comments or concerns.
-            
-            ')
-			->render();
 
-echo Site_Decorator::content_full()
+echo '<div class="content"><h2>UCSB Local Details</h2><p>
+	<a href="https://it.ucsb.edu/groups/mdg">The Mobile Development Group</a> at UCSB will be the organizing point for campus web developers interested in collaborating with others on this instance of the MWF for UCSB. The <a href="http://www.library.ucsb.edu/" >UCSB Library</a> is hosting an instance of the framework for the UCSB Community. This instance of MWF was last updated 2013-04-03 to version 1.3.03. Please contact <a href="http://www.library.ucsb.edu/staff?term_node_tid_depth=396"">Ian Lessing</a> at the Library or <a href="http://sist.sa.ucsb.edu/">Joe Sabado</a> in Student Affairs with questions, comments or concerns.
+	</p></div>';
+
+
+
+
+
+
+
+
+echo Site_Decorator::content()
             ->set_padded()
             ->add_header('The Framework')
             ->add_paragraph('The Mobile Web Framework is a cross-platform web framework that focuses on mobile web standards, semantic markup, device agnosticism and graceful degradation, providing a robust presentation layer that allows applications to define a single set of markup optimized for HTML 5 capable devices that degrades gracefully to any HTML 4.01 or XHTML MP 2.0 compliant device including Blackberry, Windows Mobile and even T9 phones.')
