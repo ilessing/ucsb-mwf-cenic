@@ -63,6 +63,10 @@ class Path extends Path_Validator {
         curl_setopt($ch, CURLOPT_NOBODY, TRUE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, self::$_curl_timeout_exists);
+		
+		curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+		curl_setopt($ch, CURLOPT_PROXY, "10.3.100.201");
+		
         $result = curl_exec($ch);
         curl_close($ch);
         return substr($result, 0, strlen('HTTP/1.1 200')) == 'HTTP/1.1 200';
