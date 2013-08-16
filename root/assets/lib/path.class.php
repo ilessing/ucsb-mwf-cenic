@@ -65,8 +65,11 @@ class Path extends Path_Validator {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, self::$_curl_timeout_exists);
 
 		/* see SUPPORT-6261 */
-		curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
-		curl_setopt($ch, CURLOPT_PROXY, "10.3.100.201");
+		if(Config::get('global', 'curl_proxy_enabled'))
+		{
+			curl_setopt($ch, CURLOPT_PROXYPORT, Config::get('global', 'curl_proxy_port'));
+			curl_setopt($ch, CURLOPT_PROXY, Config::get('global', 'curl_proxy_address'));
+		}
 
         $result = curl_exec($ch);
         curl_close($ch);
@@ -99,8 +102,11 @@ class Path extends Path_Validator {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, self::$_curl_timeout_download);
 
 		/* see SUPPORT-6261 */
-		curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
-		curl_setopt($ch, CURLOPT_PROXY, "10.3.100.201");
+		if(Config::get('global', 'curl_proxy_enabled'))
+		{
+			curl_setopt($ch, CURLOPT_PROXYPORT, Config::get('global', 'curl_proxy_port'));
+			curl_setopt($ch, CURLOPT_PROXY, Config::get('global', 'curl_proxy_address'));
+		}
 
         $result = curl_exec($ch);
         curl_close($ch);

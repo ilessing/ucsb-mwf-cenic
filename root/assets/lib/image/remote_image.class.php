@@ -62,8 +62,13 @@ class Remote_Image extends Image {
                 curl_setopt($ch, CURLOPT_HEADER, 0);
                 curl_setopt($ch, CURLOPT_FAILONERROR, 1);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 3);
-				curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
-				curl_setopt($ch, CURLOPT_PROXY, "10.3.100.201");
+				
+				if(Config::get('global', 'curl_proxy_enabled'))
+				{
+					curl_setopt($ch, CURLOPT_PROXYPORT, Config::get('global', 'curl_proxy_port'));
+					curl_setopt($ch, CURLOPT_PROXY, Config::get('global', 'curl_proxy_address'));
+				}
+				
                 curl_exec($ch);
                 curl_close($ch);
                 fclose($fh);
